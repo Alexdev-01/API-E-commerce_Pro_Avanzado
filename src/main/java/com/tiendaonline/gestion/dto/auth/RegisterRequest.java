@@ -2,20 +2,23 @@ package com.tiendaonline.gestion.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 // Solicitud de registro (registro) nuevo usuario en la aplicación.
 public class RegisterRequest {
 	
-	@NotBlank	// Asegura que el campo no esté vacío o solo contenga espacios en blanco
+	@NotBlank(message = "El username no es obligatorio")
 	private String username;
 	
-	@Email	// Valida que el campo tenga un formato de correo electrónico válido
-	@NotBlank
+	@Email(message = "Email invalido")
+	@NotBlank(message = "El email no es obligatorio")
 	private String email;
 	
-	@NotBlank
+	@NotBlank(message = "La contraseña no es obligatoria")
+	@Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
 	private String password;
 
+	
 	public RegisterRequest() {
 		super();
 	}
