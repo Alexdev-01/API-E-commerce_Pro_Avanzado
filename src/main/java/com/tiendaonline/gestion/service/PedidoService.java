@@ -2,6 +2,8 @@ package com.tiendaonline.gestion.service;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.tiendaonline.gestion.dto.pedido.CrearPedidoRequest;
 import com.tiendaonline.gestion.dto.pedido.PedidoResponse;
 import com.tiendaonline.gestion.model.Pedido;
@@ -15,6 +17,6 @@ public interface PedidoService {
 	
 	List<PedidoResponse> obtenerTodos();
 	
-	Pedido crearPedido(CrearPedidoRequest request, String username);
+	ResponseEntity<PedidoResponse> crearPedido(CrearPedidoRequest request, String username);
 
 }
