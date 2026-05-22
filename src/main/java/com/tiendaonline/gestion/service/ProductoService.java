@@ -5,12 +5,13 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 
+import com.tiendaonline.gestion.dto.producto.ProductoRequest;
 import com.tiendaonline.gestion.dto.producto.ProductoResponse;
 import com.tiendaonline.gestion.model.Producto;
 
 public interface ProductoService {
 	
-	Producto crearProducto(Producto producto);
+	Producto crearProducto(ProductoRequest request);
 	
 	Producto actualizarProducto(Long id, Producto producto);
 	
