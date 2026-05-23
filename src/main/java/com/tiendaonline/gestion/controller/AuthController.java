@@ -1,8 +1,10 @@
 package com.tiendaonline.gestion.controller;
 
+import com.tiendaonline.gestion.dto.auth.AuthRequest;
 import com.tiendaonline.gestion.dto.auth.AuthResponse;
 import com.tiendaonline.gestion.dto.auth.LoginRequest;
 import com.tiendaonline.gestion.dto.auth.RegisterRequest;
+import com.tiendaonline.gestion.dto.common.ApiResponse;
 import com.tiendaonline.gestion.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -25,16 +27,20 @@ public class AuthController {
 	
 	@PostMapping("/register")	// Define una ruta para manejar las solicitudes de registro de usuarios, lo que significa que las solicitudes POST a "/auth/register"
 	//	Recibe un objeto RegisterRequest en el cuerpo de la solicitud, lo que permite obtener los datos necesarios para registrar a un nuevo usuario. El método devuelve una respuesta con un objeto AuthResponse que contiene el token JWT generado para el usuario registrado.
-	public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+	public ResponseEntity<ApiResponse<Object>> register(@Valid @RequestBody RegisterRequest request) {
 		
-		return ResponseEntity.ok(authService.register(request));
+	    authService.register(request);
+
+		return ResponseEntity.ok(new ApiResponse<>(true, "Usuario registrado correctamente", null));
 	}
 	
 	@PostMapping("/login")
 	//	Recibe un objeto LoginRequest en el cuerpo de la solicitud, lo que permite obtener los datos necesarios para autenticar a un usuario. El método devuelve una respuesta con un objeto AuthResponse que contiene el token JWT generado para el usuario autenticado.
-	public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+	public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody AuthRequest request) {
 		
-		return ResponseEntity.ok(authService.login(request));
+		AuthResponse response = authService.login(request);
+		
+		return ResponseEntity.ok(new ApiResponse<>(true,"Login exitoso",response));
 	}
 	
 }
