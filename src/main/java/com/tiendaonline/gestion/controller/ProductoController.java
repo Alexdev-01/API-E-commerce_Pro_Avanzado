@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.Page;
 
-
+import com.tiendaonline.gestion.dto.common.ApiResponse;
+import com.tiendaonline.gestion.dto.producto.ProductoRequest;
 import com.tiendaonline.gestion.dto.producto.ProductoResponse;
 import com.tiendaonline.gestion.model.Producto;
 import com.tiendaonline.gestion.service.ProductoService;
+
+import jakarta.validation.Valid;
 
 @RestController  // Anotación para indicar que esta clase es un controlador REST
 @RequestMapping("/productos")  // Ruta base para las operaciones relacionadas con productos
@@ -32,8 +35,8 @@ public class ProductoController {
 	
 	//Acceso Admin
 	@PostMapping
-	public ResponseEntity<Producto> crearProducto(@RequestBody Producto producto) {
-		return ResponseEntity.ok(productoService.crearProducto(producto));
+	public ResponseEntity<Producto> crearProducto(@Valid @RequestBody ProductoRequest request) {
+		return ResponseEntity.ok(productoService.crearProducto(request));
 	}
 	
 	//Acceso public
@@ -63,9 +66,13 @@ public class ProductoController {
 	
 	//Acceso public
 	@GetMapping("/paginado")
-	public ResponseEntity<Page<ProductoResponse>> listarProductos(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "5") int size) {
+	public ResponseEntity<ApiResponse<Page<ProductoResponse>>> listarProductos(
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "5") int size) {
 		
-		return ResponseEntity.ok(productoService.listarProductosPaginados(page, size));
+		Page<ProductoResponse> productos = productoService.listarProductosPaginados(page, size);
+		
+		return ResponseEntity.ok(new ApiResponse<>(true,"Productos obtenidos correctamente",productos));
 	
 	}
 	
